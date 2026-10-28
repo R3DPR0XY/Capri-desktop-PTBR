@@ -1,11 +1,13 @@
 # Capri PT-BR: cada versão publicada é compilada aqui, a partir do código público, e passa pelos autotestes
 # antes de virar release. Assim qualquer pessoa confere que o instalador saiu deste código.
-# Para publicar: crie e envie uma tag como v0.7.3.1 (o mesmo número do app/AssemblyInfo.cs).
+# Para publicar: atualize a versão em app/AssemblyInfo.cs e envie para o branch `release`
+# (ou rode este workflow pela aba Actions). A tag vX.Y.Z.W é criada automaticamente com a versão do app.
 name: Release
 
 on:
   push:
-    tags: ['v*']
+    branches: [release]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,12 +21,18 @@ jobs:
       - name: Compilar e rodar os autotestes
         shell: pwsh
         run: ./ci/build-windows.ps1 -OutputDirectory out/windows -SmokeTest -SmokeSeconds 180
-      - name: Conferir a versão
+      - name: Ler a versão do app
+        id: version
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          $tag = '${{ github.ref_name }}'.TrimStart('v')
           $version = (Get-Item out/windows/Capri.exe).VersionInfo.FileVersion
-          if ($version -ne $tag) { throw "A tag ($tag) não bate com a versão do app ($version). Atualize app/AssemblyInfo.cs." }
+          $tag = 'v' + $version
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -eq 0) { throw "A release $tag já existe. Aumente a versão em app/AssemblyInfo.cs." }
+          $global:LASTEXITCODE = 0
+          "tag=$tag" >> $env:GITHUB_OUTPUT
       - name: Gerar checksums
         shell: pwsh
         run: |
@@ -45,4 +53,4 @@ jobs:
 
           Required Notice: Copyright 2026 Lachy (https://github.com/lachydotmcg) · PolyForm Noncommercial 1.0.0
           "@
-          gh release create '${{ github.ref_name }}' out/windows/Capri-Setup.exe out/windows/Capri.exe out/windows/SHA256SUMS.txt --title "Capri PT-BR ${{ github.ref_name }}" --notes $notes
+          gh release create '${{ steps.version.outputs.tag }}' out/windows/Capri-Setup.exe out/windows/Capri.exe out/windows/SHA256SUMS.txt --target '${{ github.sha }}' --title "Capri PT-BR ${{ steps.version.outputs.tag }}" --notes $notes
