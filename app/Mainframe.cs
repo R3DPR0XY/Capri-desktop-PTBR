@@ -1066,7 +1066,8 @@ namespace CapriDesktop
         private ContextMenuStrip Dropdown()
         {
             ContextMenuStrip strip = new ContextMenuStrip();
-            strip.Renderer = new ToolStripProfessionalRenderer(new CapriMenuColors());
+            strip.Renderer = new PtMenuRenderer(new CapriMenuColors());
+            Pt.Fit(strip);
             strip.BackColor = Look.Panel;
             strip.ForeColor = Look.Ink;
             strip.Font = Font;
@@ -1128,6 +1129,27 @@ namespace CapriDesktop
             internal Note() { SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true); }
 
             protected override void OnPaintBackground(PaintEventArgs e) { Backdrop(e.Graphics, this, ((Mainframe)Parent).DeviceScale()); }
+
+            // PT-BR: o texto interno segue em inglês (os autotestes conferem); aqui ele aparece e é medido em português.
+            private const TextFormatFlags Shown = TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.NoPrefix;
+
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                string pt = Pt.T(Text);
+                if (pt == Text) { base.OnPaint(e); return; }
+                TextRenderer.DrawText(e.Graphics, pt, Font, ClientRectangle, Enabled ? ForeColor : Look.Dim, Shown);
+            }
+
+            public override Size GetPreferredSize(Size proposed)
+            {
+                Size size = base.GetPreferredSize(proposed);
+                string pt = Pt.T(Text);
+                if (pt == Text || string.IsNullOrEmpty(Text)) return size;
+                Size limit = new Size(MaximumSize.Width > 0 ? MaximumSize.Width : int.MaxValue, int.MaxValue);
+                Size english = TextRenderer.MeasureText(Text, Font, limit, Shown);
+                Size portuguese = TextRenderer.MeasureText(pt, Font, limit, Shown);
+                return new Size(Math.Max(1, size.Width + portuguese.Width - english.Width), Math.Max(1, size.Height + portuguese.Height - english.Height));
+            }
 
             protected override void WndProc(ref Message message)
             {
@@ -1204,7 +1226,7 @@ namespace CapriDesktop
                 }
                 Rectangle area = Chevron ? new Rectangle((int)(10 * s), 0, Width - (int)(30 * s), Height) : ClientRectangle;
                 TextFormatFlags flags = TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix | TextFormatFlags.EndEllipsis | (Chevron ? TextFormatFlags.Left : TextFormatFlags.HorizontalCenter);
-                TextRenderer.DrawText(graphics, Text, Font, area, ink, flags);
+                TextRenderer.DrawText(graphics, Pt.T(Text), Font, area, ink, flags);
             }
         }
 
@@ -1242,7 +1264,7 @@ namespace CapriDesktop
 
             private bool OnChevron(int x) { return Chevron && x >= Width - 28 * Unit(); }
 
-            private void ShowCue() { if (Box.IsHandleCreated) Native.SendMessage(Box.Handle, 0x1501, new IntPtr(1), cue); }
+            private void ShowCue() { if (Box.IsHandleCreated) Native.SendMessage(Box.Handle, 0x1501, new IntPtr(1), Pt.T(cue)); }
 
             protected override void OnLayout(LayoutEventArgs e)
             {
@@ -1418,10 +1440,10 @@ namespace CapriDesktop
                 if (Checked) using (Brush mark = new SolidBrush(Look.Cyan)) graphics.FillEllipse(mark, dot.X + 3.5f * s, dot.Y + 3.5f * s, dot.Width - 7 * s, dot.Height - 7 * s);
                 int left = (int)(dot.Right + 9 * s);
                 TextFormatFlags flags = TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
-                TextRenderer.DrawText(graphics, Text, Font, new Rectangle(left, 0, Width - left, Height), Checked ? Look.Cyan : Look.Ink, flags);
-                int after = left + TextRenderer.MeasureText(graphics, Text, Font, Size.Empty, flags).Width + (int)(10 * s);
-                if (Hint != null) TextRenderer.DrawText(graphics, Hint, HintFont ?? Font, new Rectangle(after, 0, Math.Max(0, Width - after), Height), Look.Dim, flags);
-                if (Flag != null) TextRenderer.DrawText(graphics, Flag, FlagFont ?? Font, ClientRectangle, Look.Yellow, TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix);
+                TextRenderer.DrawText(graphics, Pt.T(Text), Font, new Rectangle(left, 0, Width - left, Height), Checked ? Look.Cyan : Look.Ink, flags);
+                int after = left + TextRenderer.MeasureText(graphics, Pt.T(Text), Font, Size.Empty, flags).Width + (int)(10 * s);
+                if (Hint != null) TextRenderer.DrawText(graphics, Pt.T(Hint), HintFont ?? Font, new Rectangle(after, 0, Math.Max(0, Width - after), Height), Look.Dim, flags);
+                if (Flag != null) TextRenderer.DrawText(graphics, Pt.T(Flag), FlagFont ?? Font, ClientRectangle, Look.Yellow, TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix);
             }
         }
 
@@ -1455,10 +1477,10 @@ namespace CapriDesktop
                 if (Checked) using (Brush mark = new SolidBrush(Look.Cyan)) graphics.FillRectangle(mark, box.X + 3.5f * s, box.Y + 3.5f * s, box.Width - 7 * s, box.Height - 7 * s);
                 int left = (int)(box.Right + 9 * s);
                 TextFormatFlags flags = TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
-                TextRenderer.DrawText(graphics, Text, Font, new Rectangle(left, 0, Width - left, Height), Look.Ink, flags);
+                TextRenderer.DrawText(graphics, Pt.T(Text), Font, new Rectangle(left, 0, Width - left, Height), Look.Ink, flags);
                 if (Hint == null) return;
-                int after = left + TextRenderer.MeasureText(graphics, Text, Font, Size.Empty, flags).Width + (int)(14 * s);
-                TextRenderer.DrawText(graphics, Hint, HintFont ?? Font, new Rectangle(after, 0, Math.Max(0, Width - after), Height), Look.Dim, flags);
+                int after = left + TextRenderer.MeasureText(graphics, Pt.T(Text), Font, Size.Empty, flags).Width + (int)(14 * s);
+                TextRenderer.DrawText(graphics, Pt.T(Hint), HintFont ?? Font, new Rectangle(after, 0, Math.Max(0, Width - after), Height), Look.Dim, flags);
             }
         }
     }

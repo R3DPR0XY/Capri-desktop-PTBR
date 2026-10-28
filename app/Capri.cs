@@ -51,7 +51,7 @@ namespace CapriDesktop
                 {
                     HerCursor.Off();
                     if (smoke) { Directory.CreateDirectory(args[1]); File.WriteAllText(Path.Combine(args[1], "failure.txt"), error.ToString()); return 1; }
-                    MessageBox.Show("Capri could not start.\n\n" + error.Message, "Capri", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Pt.T("Capri could not start.\n\n" + error.Message), "Capri", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return 1;
                 }
             }
@@ -119,6 +119,7 @@ namespace CapriDesktop
         [DataMember] public bool StartupSet;
         [DataMember] public bool QuickHands;
         [DataMember] public bool Bypass;
+        [DataMember] public bool LanguageSet; // PT-BR: a pessoa já escolheu um idioma (senão ela começa em português)
 
         [OnDeserializing]
         private void Defaults(StreamingContext context)
@@ -749,6 +750,7 @@ namespace CapriDesktop
             kokoro = new LocalVoice(data);
             parakeet = new LocalEars(data);
             preferences = smoke ? new Preferences() : LoadPreferences();
+            if (!smoke && preferences.Language == null && !preferences.LanguageSet) preferences.Language = "Português"; // PT-BR: idioma padrão
             ears.Chosen = preferences.Mic;
             kokoro.Style = LocalVoice.Find(preferences.VoiceStyle);
             Brain.Language = Brain.LanguageCode(preferences.Language) == "en" ? null : preferences.Language;
@@ -774,7 +776,8 @@ namespace CapriDesktop
             Cursor = Look.Pointer;
             AutoScaleMode = AutoScaleMode.None;
             menu = new ContextMenuStrip();
-            menu.Renderer = new ToolStripProfessionalRenderer(new CapriMenuColors());
+            menu.Renderer = new PtMenuRenderer(new CapriMenuColors());
+            Pt.Fit(menu);
             menu.ForeColor = Color.FromArgb(238, 239, 241);
             menu.BackColor = Color.FromArgb(26, 27, 31);
             menu.ShowImageMargin = false;
@@ -838,7 +841,7 @@ namespace CapriDesktop
             {
                 tray.Icon = icon != null ? new Icon(icon) : Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             }
-            tray.Text = "Capri · Double-click to restore";
+            tray.Text = TrayText("Capri · Double-click to restore");
             tray.ContextMenuStrip = menu;
             tray.DoubleClick += delegate { RestoreAtCursor(); };
             tray.BalloonTipClicked += delegate { BalloonClicked(); };
@@ -1187,7 +1190,7 @@ namespace CapriDesktop
                     tray.BalloonTipTitle = "Capri update ready";
                     tray.BalloonTipText = updateItem.Text;
                     tray.BalloonTipIcon = ToolTipIcon.Info;
-                    if (!testing) tray.ShowBalloonTip(8000);
+                    if (!testing) Pt.Balloon(tray, 8000);
                 }
                 return;
             }
@@ -1486,8 +1489,8 @@ namespace CapriDesktop
             riding = true;
             Native.SetWindowLong(Handle, -20, Native.GetWindowLong(Handle, -20) | 0x20);
             rideItem.Text = "Hop off";
-            tray.Text = hotkey ? "Capri · " + hopName + " to hop off" : "Capri · Hop off from this menu";
-            if (!testing && !quiet) { balloonPage = null; balloonUpdate = false; balloonMainframe = false; tray.ShowBalloonTip(6000, "Capri is riding your cursor", hotkey ? "Press " + hopName + " to get her off." : "Right-click her tray icon, then choose Move and Hop off.", ToolTipIcon.Info); }
+            tray.Text = TrayText(hotkey ? "Capri · " + hopName + " to hop off" : "Capri · Hop off from this menu");
+            if (!testing && !quiet) { balloonPage = null; balloonUpdate = false; balloonMainframe = false; Pt.Balloon(tray, 6000, "Capri is riding your cursor", hotkey ? "Press " + hopName + " to get her off." : "Right-click her tray icon, then choose Move and Hop off.", ToolTipIcon.Info); }
             Play(perchGlitch);
             frames.Start();
             pill.Hide();
@@ -1504,7 +1507,7 @@ namespace CapriDesktop
             Play(grin);
             if (IsHandleCreated) Native.SetWindowLong(Handle, -20, Native.GetWindowLong(Handle, -20) & ~0x20);
             if (rideItem != null) rideItem.Text = "Ride cursor";
-            if (tray != null) tray.Text = "Capri · Double-click to restore";
+            if (tray != null) tray.Text = TrayText("Capri · Double-click to restore");
             if (!IsDisposed) { Location = anchor; UpdateAnimation(); SavePreferences(); mainframe.Sync(); }
         }
 
@@ -2024,6 +2027,7 @@ namespace CapriDesktop
             string code = Brain.LanguageCode(language);
             Brain.Language = code == "en" ? null : language;
             preferences.Language = code == "en" ? null : language;
+            preferences.LanguageSet = true;
             brain.Forget();
             SavePreferences();
         }
@@ -2573,7 +2577,7 @@ namespace CapriDesktop
             balloonPage = FreeKeyPage;
             balloonUpdate = false;
             balloonMainframe = false;
-            tray.ShowBalloonTip(15000, "Capri is replying slowly", "Her brain runs on your PC, and open games share that power. For fast replies, click here, make a free NVIDIA key, then paste it in Capri Mainframe under BRAIN and press Connect.", ToolTipIcon.Info);
+            Pt.Balloon(tray, 15000, "Capri is replying slowly", "Her brain runs on your PC, and open games share that power. For fast replies, click here, make a free NVIDIA key, then paste it in Capri Mainframe under BRAIN and press Connect.", ToolTipIcon.Info);
         }
 
         internal int GlanceGap { get { return preferences.GlanceGap > 0 ? preferences.GlanceGap : 120; } }
@@ -3518,7 +3522,7 @@ namespace CapriDesktop
                     if (problem != null)
                     {
                         mainframe.VoiceNote(problem, true);
-                        if (told && !cancelled) { balloonPage = null; balloonUpdate = false; balloonMainframe = true; tray.ShowBalloonTip(15000, "Capri's free voice didn't download", problem + " Click to try again from Capri Mainframe.", ToolTipIcon.Warning); }
+                        if (told && !cancelled) { balloonPage = null; balloonUpdate = false; balloonMainframe = true; Pt.Balloon(tray, 15000, "Capri's free voice didn't download", problem + " Click to try again from Capri Mainframe.", ToolTipIcon.Warning); }
                     }
                     else
                     {
@@ -3553,7 +3557,7 @@ namespace CapriDesktop
                 balloonPage = null;
                 balloonUpdate = false;
                 balloonMainframe = true;
-                tray.ShowBalloonTip(8000, "Getting Capri's ears", Engine.Amount(LocalEars.PackSize) + ", one time. Then she hears any mic, offline. Click to watch it download.", ToolTipIcon.Info);
+                Pt.Balloon(tray, 8000, "Getting Capri's ears", Engine.Amount(LocalEars.PackSize) + ", one time. Then she hears any mic, offline. Click to watch it download.", ToolTipIcon.Info);
             }
             ThreadPool.QueueUserWorkItem(delegate
             {
@@ -3584,11 +3588,11 @@ namespace CapriDesktop
 
         private void GetFreeVoice()
         {
-            if (testing || SettingUpVoice || kokoro.Installed || preferences.Silent) return;
+            if (testing || SettingUpVoice || kokoro.Installed || preferences.Silent || PtFree) return; // PT-BR: com voz pt-BR do Windows não precisa baixar
             balloonPage = null;
             balloonUpdate = false;
             balloonMainframe = true;
-            tray.ShowBalloonTip(8000, "Getting Capri's free voice", Engine.Amount(LocalVoice.PackSize) + ", one time. She'll talk as soon as it's in. Click to watch it download.", ToolTipIcon.Info);
+            Pt.Balloon(tray, 8000, "Getting Capri's free voice", Engine.Amount(LocalVoice.PackSize) + ", one time. She'll talk as soon as it's in. Click to watch it download.", ToolTipIcon.Info);
             SetUpFreeVoice(true);
         }
 
@@ -3610,13 +3614,13 @@ namespace CapriDesktop
             preferences.VoiceStyle = kokoro.Style == LocalVoice.Styles[0] ? null : kokoro.Style.Name;
             SavePreferences();
             ShowVoice();
-            if (voice.Key == null && kokoro.Installed) TestVoice();
+            if (voice.Key == null && (kokoro.Installed || PtFree)) TestVoice();
         }
 
         internal void TestVoice()
         {
             if (preferences.Silent) { mainframe.VoiceNote("Her voice is OFF. Pick FREE VOICE or ELEVENLABS to hear her.", true); return; }
-            if (voice.Key == null && Speak == null && !kokoro.Installed) { mainframe.VoiceNote("Get her free voice, or paste an ElevenLabs key.", true); return; }
+            if (voice.Key == null && Speak == null && !kokoro.Installed && !PtFree) { mainframe.VoiceNote("Get her free voice, or paste an ElevenLabs key.", true); return; }
             if (voice.Key != null && voice.VoiceId == null && Speak == null) { mainframe.VoiceNote("Paste your Voice ID first.", true); return; }
             if (hidden) SetHidden(false);
             brain.Cancel();
@@ -3650,7 +3654,7 @@ namespace CapriDesktop
 
         private void ShowVoice(bool note = true)
         {
-            bool ready = kokoro.Installed;
+            bool ready = kokoro.Installed || PtFree;
             mainframe.ShowVoice(voice.Key == null ? null : Voice.Tail(voice.Key), voice.VoiceId, voice.Model, voices);
             mainframe.ShowFree(ready, kokoro.Style.Name, SettingUpVoice);
             if (!note) return;
@@ -4437,9 +4441,10 @@ namespace CapriDesktop
         private void Answer(int ticket, string said, TalkState state, bool quiet = false)
         {
             if (ticket != asking || IsDisposed) return;
+            if (!testing) said = Pt.T(said); // PT-BR: frases prontas em português (fora dos autotestes)
             voice.Stop();
             voiceUntil = 0;
-            Func<string, byte[]> free = preferences.Quiet && !FreeChatOn ? null : FreeSpeak ?? (!testing && kokoro.Installed ? new Func<string, byte[]>(kokoro.Speak) : null);
+            Func<string, byte[]> free = preferences.Quiet && !FreeChatOn ? null : FreeSpeak ?? (PtFree ? new Func<string, byte[]>(PtVoice.Speak) : !testing && kokoro.Installed ? new Func<string, byte[]>(kokoro.Speak) : null);
             Func<string, byte[]> speak = preferences.Quiet || local || quiet || voiceBroke ? null : Speak;
             if (speak == null && !local && !quiet && !voiceBroke && !testing && voice.Ready && !preferences.Quiet) speak = voice.Speak;
             if (speak == null && (voice.Key == null || local || quiet || voiceBroke || preferences.Quiet)) speak = free;
@@ -4561,6 +4566,7 @@ namespace CapriDesktop
             box.State = talkState;
             box.Heard = heard;
             box.Reply = talkState == TalkState.Thinking ? (working ?? (slowWarned ? (brain.Remote != null ? "Still thinking. Waiting for " + brain.Remote.Company + "." : SlowLocal) : null)) : reply;
+            if (!testing && talkState == TalkState.Thinking) box.Reply = Pt.T(box.Reply);
             box.Revealed = revealed;
             float s = TalkScale();
             Point head = Head();
@@ -4599,6 +4605,11 @@ namespace CapriDesktop
             UpdateTalk(now);
             if (pill.Visible) UpdatePill(now);
         }
+
+        private string TrayText(string text) { return testing ? text : Pt.T(text); }
+
+        // PT-BR: voz grátis em português pela voz pt-BR do Windows (fora dos autotestes).
+        private bool PtFree { get { return !testing && Brain.LanguageCode(preferences.Language) == "pt" && PtVoice.Available; } }
 
         internal void Say(string text)
         {

@@ -57,7 +57,7 @@ namespace CapriSetup
                     if (launched == null) throw new IOException("Capri updated but couldn't restart. Open her from the Start menu.");
                 return 0;
             }
-            catch (Exception error) { MessageBox.Show(error.Message, "Capri couldn't update", MessageBoxButtons.OK, MessageBoxIcon.Error); return 1; }
+            catch (Exception error) { MessageBox.Show(error.Message, "A Capri não conseguiu atualizar", MessageBoxButtons.OK, MessageBoxIcon.Error); return 1; }
         }
 
         internal static byte[] Payload()
@@ -90,7 +90,7 @@ namespace CapriSetup
                     Snap(preview, Path.Combine(output, "installer.png"));
                     preview.Speaking(127L << 20, VoicePack.Size, Megabytes(127L << 20) + " of " + Megabytes(VoicePack.Size));
                     Application.DoEvents();
-                    if (!preview.Saying("Installing the local speech model", "This may take some time")) throw new InvalidDataException("The installer doesn't say it's installing the local speech model.");
+                    if (!preview.Saying("Instalando a voz local", "Pode demorar")) throw new InvalidDataException("The installer doesn't say it's installing the local speech model.");
                     Snap(preview, Path.Combine(output, "installer-speech.png"));
                     preview.Close();
                 }
@@ -304,10 +304,10 @@ namespace CapriSetup
                 DeleteShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Capri.lnk"), destination);
                 Startup.Clear(Path.Combine(destination, "Capri.exe"));
                 Registry.CurrentUser.DeleteSubKeyTree(RegistryPath, false);
-                MessageBox.Show("Capri has been removed.\n\nYour position and size settings were kept in " + destination + ".", "Capri", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("A Capri foi removida.\n\nSuas configurações de posição e tamanho ficaram guardadas em " + destination + ".", "Capri", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return 0;
             }
-            catch (Exception error) { MessageBox.Show(error.Message, "Capri could not be removed", MessageBoxButtons.OK, MessageBoxIcon.Error); return 1; }
+            catch (Exception error) { MessageBox.Show(error.Message, "Não foi possível remover a Capri", MessageBoxButtons.OK, MessageBoxIcon.Error); return 1; }
         }
 
         private static void DeleteShortcut(string path, string destination)
@@ -343,7 +343,7 @@ namespace CapriSetup
         internal SetupWindow(bool uninstall)
         {
             removing = uninstall;
-            Text = removing ? "Remove Capri" : "Install Capri";
+            Text = removing ? "Remover a Capri" : "Instalar a Capri";
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = true;
@@ -355,28 +355,28 @@ namespace CapriSetup
             Font = new Font("Segoe UI", 10);
             using (Stream source = Assembly.GetExecutingAssembly().GetManifestResourceStream("Capri.Chip.ico")) if (source != null) Icon = new Icon(source);
             Label eyebrow = LabelAt("CAPRI  /  DESKTOP COMPANION", 34, 29, 590, 22, 9, Color.FromArgb(172, 248, 98));
-            Label heading = LabelAt(removing ? "See you around." : "A little company.\nZero noise.", 31, 69, 408, 116, 29, ForeColor);
+            Label heading = LabelAt(removing ? "Até mais." : "Uma companhia.\nZero barulho.", 31, 69, 408, 116, 29, ForeColor);
             heading.Font = new Font("Segoe UI Semibold", 29, FontStyle.Bold);
             chip = new PictureBox();
             chip.Bounds = new Rectangle(462, 80, 180, 112);
             chip.SizeMode = PictureBoxSizeMode.Zoom;
             using (Stream image = Assembly.GetExecutingAssembly().GetManifestResourceStream("Capri.Chip.png")) if (image != null) using (Bitmap loaded = new Bitmap(image)) chip.Image = new Bitmap(loaded);
             Controls.Add(chip);
-            LabelAt(removing ? "Remove the app and its shortcuts for this Windows user.\nQuit Capri from the tray before continuing." : "Right-click for her menu.", 34, 208, 610, 53, 11, Color.FromArgb(175, 179, 188));
-            desktop = new CheckBox { Text = "Add a desktop shortcut", Checked = false, AutoSize = true, Location = new Point(34, 280), Visible = !removing, ForeColor = ForeColor, BackColor = BackColor };
-            launch = new CheckBox { Text = "Open Capri when finished", Checked = true, AutoSize = true, Location = new Point(34, 310), Visible = !removing, ForeColor = ForeColor, BackColor = BackColor };
+            LabelAt(removing ? "Remove o app e os atalhos deste usuário do Windows.\nFeche a Capri pela bandeja antes de continuar." : "Clique com o botão direito nela para ver o menu.", 34, 208, 610, 53, 11, Color.FromArgb(175, 179, 188));
+            desktop = new CheckBox { Text = "Criar atalho na área de trabalho", Checked = false, AutoSize = true, Location = new Point(34, 280), Visible = !removing, ForeColor = ForeColor, BackColor = BackColor };
+            launch = new CheckBox { Text = "Abrir a Capri ao terminar", Checked = true, AutoSize = true, Location = new Point(34, 310), Visible = !removing, ForeColor = ForeColor, BackColor = BackColor };
             Controls.Add(desktop);
             Controls.Add(launch);
-            status = LabelAt(removing ? "Your saved position and size will be kept." : "", 34, 350, 604, 22, 9, Color.FromArgb(146, 151, 161));
+            status = LabelAt(removing ? "Sua posição e tamanho salvos serão mantidos." : "", 34, 350, 604, 22, 9, Color.FromArgb(146, 151, 161));
             stage = LabelAt("", 34, 278, 604, 28, 12.5f, ForeColor);
             stage.Visible = false;
             note = LabelAt("", 34, 310, 604, 22, 9.5f, Color.FromArgb(175, 179, 188));
             note.Visible = false;
-            primary = new Button { Text = removing ? "Remove Capri" : "Install Capri", Bounds = new Rectangle(450, 399, 194, 43), FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(239, 58, 78), ForeColor = Color.White, Cursor = Cursors.Hand };
+            primary = new Button { Text = removing ? "Remover a Capri" : "Instalar a Capri", Bounds = new Rectangle(450, 399, 194, 43), FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(239, 58, 78), ForeColor = Color.White, Cursor = Cursors.Hand };
             primary.FlatAppearance.BorderSize = 0;
             primary.Click += Perform;
             Controls.Add(primary);
-            cancel = new Button { Text = "Cancel", Bounds = new Rectangle(318, 399, 116, 43), FlatStyle = FlatStyle.Flat, ForeColor = Color.FromArgb(196, 199, 205), BackColor = BackColor };
+            cancel = new Button { Text = "Cancelar", Bounds = new Rectangle(318, 399, 116, 43), FlatStyle = FlatStyle.Flat, ForeColor = Color.FromArgb(196, 199, 205), BackColor = BackColor };
             cancel.FlatAppearance.BorderColor = Color.FromArgb(62, 65, 74);
             cancel.Click += delegate
             {
@@ -384,7 +384,7 @@ namespace CapriSetup
                 // Skipping the speech model still leaves Capri installed; she can fetch it later from her Mainframe.
                 stopping = true;
                 cancel.Enabled = false;
-                status.Text = "Skipping it…";
+                status.Text = "Pulando…";
             };
             Controls.Add(cancel);
             AcceptButton = primary;
@@ -422,10 +422,10 @@ namespace CapriSetup
             try
             {
                 if (removing) { Program.BeginUninstall(); Close(); return; }
-                status.Text = "Making a little room for Capri…";
+                status.Text = "Abrindo espaço para a Capri…";
                 Program.Install(desktop.Checked);
             }
-            catch (Exception error) { status.Text = "Capri could not finish. Your files are still here."; primary.Enabled = true; MessageBox.Show(error.Message, "Capri", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            catch (Exception error) { status.Text = "A Capri não conseguiu terminar. Seus arquivos continuam aqui."; primary.Enabled = true; MessageBox.Show(error.Message, "Capri", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (Environment.Is64BitOperatingSystem && !VoicePack.Complete(VoicePack.Folder(Program.InstallPath))) FetchVoice();
             else Finish();
         }
@@ -439,7 +439,7 @@ namespace CapriSetup
         // Her local speech model comes with the install, and the window says so plainly while it downloads.
         private void FetchVoice()
         {
-            Speaking(0, VoicePack.Size, "Starting the download…");
+            Speaking(0, VoicePack.Size, "Iniciando o download…");
             Thread worker = new Thread(delegate()
             {
                 string failed = null;
@@ -447,7 +447,7 @@ namespace CapriSetup
                 {
                     Program.FetchVoice(Program.InstallPath, delegate(string what, long have, long size)
                     {
-                        string detail = what == "Downloading" ? Program.Megabytes(have) + " of " + Program.Megabytes(size) : what == "Checking" ? "Checking the download…" : "Unpacking…";
+                        string detail = what == "Downloading" ? Program.Megabytes(have) + " de " + Program.Megabytes(size) : what == "Checking" ? "Conferindo o download…" : "Descompactando…";
                         Post(delegate { Speaking(have, size, detail); });
                     }, delegate { return stopping; });
                 }
@@ -469,12 +469,12 @@ namespace CapriSetup
             fetching = true;
             desktop.Visible = false;
             launch.Visible = false;
-            stage.Text = "Installing the local speech model";
-            note.Text = "This may take some time. For a better sounding, faster voice, get an API key.";
+            stage.Text = "Instalando a voz local";
+            note.Text = "Pode demorar. Para uma voz melhor e mais rápida, use uma API key.";
             stage.Visible = true;
             note.Visible = true;
-            if (!stopping) cancel.Text = "Skip";
-            primary.Text = "Installing…";
+            if (!stopping) cancel.Text = "Pular";
+            primary.Text = "Instalando…";
             primary.Enabled = false;
             got = have;
             total = size;
@@ -488,11 +488,11 @@ namespace CapriSetup
         {
             fetching = false;
             if (string.IsNullOrEmpty(failed)) { Finish(); return; }
-            stage.Text = "Couldn't install the local speech model";
-            note.Text = "Capri is installed. Get it later in Capri Mainframe, or add an API key.";
+            stage.Text = "Não consegui instalar a voz local";
+            note.Text = "A Capri está instalada. Baixe a voz depois no Capri Mainframe ou use uma API key.";
             status.Text = failed;
             cancel.Visible = false;
-            primary.Text = "Finish";
+            primary.Text = "Concluir";
             primary.Click -= Perform;
             primary.Click += delegate { Finish(); };
             primary.Enabled = true;

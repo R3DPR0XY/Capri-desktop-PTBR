@@ -1246,7 +1246,7 @@ namespace CapriDesktop
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-                string lead = "CAPRI IS CONTROLLING ", name = app.ToUpperInvariant();
+                string lead = Pt.On ? "CAPRI ESTÁ CONTROLANDO " : "CAPRI IS CONTROLLING ", name = app.ToUpperInvariant();
                 float tall = 26 * scale, icon = 20 * scale, pad = 7 * scale;
                 float leadWide = graphics.MeasureString(lead, font, PointF.Empty, Spaced).Width;
                 float nameWide = graphics.MeasureString(name, font, PointF.Empty, Spaced).Width;
@@ -1729,7 +1729,8 @@ namespace CapriDesktop
 
         internal static Bitmap Frame(string task, IList<JobStep> steps, string busy, string outcome, string ending, bool caret, double fade, float s)
         {
-            string status = Speaker + (outcome == null ? "working on your task." : ending.Length > 0 ? ending : outcome == "done" ? "done." : "stopped.");
+            string status = Speaker + (outcome == null ? Pt.T("working on your task.") : ending.Length > 0 ? Pt.T(ending) : outcome == "done" ? Pt.T("done.") : Pt.T("stopped."));
+            busy = busy == null ? null : Pt.T(busy);
             System.Text.StringBuilder every = new System.Text.StringBuilder(task + status + busy);
             foreach (JobStep step in steps) every.Append(step.Label);
             using (Font text = Look.Mono(14 * s, FontStyle.Regular, GraphicsUnit.Pixel, every.ToString()))
@@ -1744,10 +1745,10 @@ namespace CapriDesktop
                 int hidden = steps.Count > MostRows ? steps.Count - (MostRows - 1) : 0;
                 List<string> rows = new List<string>();
                 List<Color> inks = new List<Color>();
-                if (hidden > 0) { rows.Add("  +" + hidden + " earlier steps"); inks.Add(Look.Dim); }
+                if (hidden > 0) { rows.Add("  +" + Pt.T(hidden + " earlier steps")); inks.Add(Look.Dim); }
                 for (int i = hidden > 0 ? steps.Count - (MostRows - 1) : 0; i < steps.Count; i++)
                 {
-                    rows.Add((steps[i].Finished ? "• " : "> ") + steps[i].Label + (steps[i].Finished ? "" : "..."));
+                    rows.Add((steps[i].Finished ? "• " : "> ") + Pt.T(steps[i].Label) + (steps[i].Finished ? "" : "..."));
                     inks.Add(steps[i].Failed ? Look.Red : steps[i].Finished ? Look.Dim : Look.Neon);
                 }
                 bool thinking = outcome == null && busy != null;
@@ -1796,7 +1797,7 @@ namespace CapriDesktop
                     if (running)
                         using (Font small = Look.Mono(12 * s, FontStyle.Regular, GraphicsUnit.Pixel))
                         using (Brush dim = new SolidBrush(Color.FromArgb(a, Look.Dim)))
-                            graphics.DrawString("ESC STOPS ME", small, dim, panel.Right - 15 * s - graphics.MeasureString("ESC STOPS ME", small, PointF.Empty, StringFormat.GenericTypographic).Width, y + 2 * s, StringFormat.GenericTypographic);
+                            graphics.DrawString(Pt.T("ESC STOPS ME"), small, dim, panel.Right - 15 * s - graphics.MeasureString(Pt.T("ESC STOPS ME"), small, PointF.Empty, StringFormat.GenericTypographic).Width, y + 2 * s, StringFormat.GenericTypographic);
                 }
                 return image;
             }
