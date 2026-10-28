@@ -3,223 +3,120 @@
   <img src="assets/capri.png" alt="Capri" width="40%" align="middle">
 </p>
 
+<h1 align="center">Capri Desktop · PT-BR</h1>
+
 <p align="center">
-  Bring Capri (back lol) to life as a desktop companion! Inspired by jpartnma_'s tiktok video.
+  A Capri de <i>Cyberpunk: Edgerunners 2</i> morando no seu desktop, <b>em português do Brasil</b>.
 </p>
 
 <p align="center">
-  <a href="https://github.com/lachydotmcg/capri-desktop/releases/latest/download/Capri-Setup.exe"><b>Download for Windows</b></a>
-  &nbsp;·&nbsp;
-  <a href="#mac-and-linux-early-preview">Mac and Linux</a>
-  &nbsp;·&nbsp;
-  <a href="https://lachydotmcg.github.io/capri-desktop/setup/">Setup guide</a>
-  &nbsp;·&nbsp;
-  <a href="https://lachydotmcg.github.io/capri-desktop/">Website</a>
-  &nbsp;·&nbsp;
-  <a href="https://discord.gg/F4fDHfGtFk">Discord</a>
+  Versão em português por <b>R3DPR0XY</b>, baseada no <a href="https://github.com/lachydotmcg/capri-desktop">capri-desktop</a> de <b>Lachy</b>.<br>
+  Projeto de fã, não oficial e sem fins comerciais.
 </p>
 
 <table align="center">
   <tr>
-    <td align="center"><img src="assets/readme/idle.webp" alt="Capri idling and blinking" width="150"><br><sub>Hanging out</sub></td>
-    <td align="center"><img src="assets/readme/talk.webp" alt="Capri talking" width="150"><br><sub>Talking</sub></td>
-    <td align="center"><img src="assets/readme/tossed.webp" alt="Capri flailing while dragged" width="150"><br><sub>Getting tossed</sub></td>
-    <td align="center"><img src="assets/readme/glitch.webp" alt="Capri glitching" width="150"><br><sub>Glitching</sub></td>
-    <td align="center"><img src="assets/readme/sleep.webp" alt="Capri asleep, then booting back up" width="150"><br><sub>Napping</sub></td>
+    <td align="center"><img src="assets/readme/idle.webp" alt="Capri parada, piscando" width="150"><br><sub>De boa</sub></td>
+    <td align="center"><img src="assets/readme/talk.webp" alt="Capri falando" width="150"><br><sub>Falando</sub></td>
+    <td align="center"><img src="assets/readme/tossed.webp" alt="Capri sendo arremessada" width="150"><br><sub>Sendo arremessada</sub></td>
+    <td align="center"><img src="assets/readme/glitch.webp" alt="Capri dando glitch" width="150"><br><sub>Glitch</sub></td>
+    <td align="center"><img src="assets/readme/sleep.webp" alt="Capri dormindo e religando" width="150"><br><sub>Cochilando</sub></td>
   </tr>
 </table>
 
-Beware that Capri may try to take over your human CPU. We take no responsibility for her actions.
+## O que esta versão muda
 
-## What she does
+- **Tudo em português:** janela de configurações (Mainframe), menu da bandeja, avisos, balões de fala, painel de tarefas e instalador.
+- **Ela responde em português** desde a primeira vez que abre. Se você escolher outro idioma no Mainframe, a escolha fica salva.
+- **Voz grátis em português:** usa a voz pt-BR do próprio Windows (por exemplo, a Microsoft Maria), que roda offline e não precisa baixar o pacote de voz de 300 MB. A voz grátis original foi treinada em inglês e chinês e soa estranha lendo português. Com uma chave da ElevenLabs, ela também fala português.
+- **Atualizações vêm deste repositório**, então a atualização automática não troca a sua Capri em português pela versão em inglês.
 
-- **Talks back.** Type to her and she answers in her own words.
-- **Talks out loud.** Add an ElevenLabs key and she speaks, or voice chat with her.
-- **Does things for you.** Ask her to open apps, play music or close a tab.
-- **Watches you play.** Turn it on and she comments on your games.
-- **Sits on your stuff.** Drop her on a window, an icon or the bottom of your screen.
+O resto é a Capri do Lachy, com tudo o que ela faz: conversa, fala, abre apps, toca música, comenta seus jogos e senta nas suas janelas.
 
-<p align="center">
-  <img src="assets/readme/bubble.png" alt="Capri's speech box with the pencil and wave buttons" width="31%">
-  <img src="assets/readme/sit.png" alt="Capri sitting on a window" width="31%">
-  <img src="assets/readme/mainframe.png" alt="The Capri Mainframe" width="22%">
-</p>
+## O que ela faz
 
-## What you need
+- **Conversa:** você digita e ela responde do jeito dela.
+- **Fala em voz alta:** com a voz grátis do Windows ou com uma chave da ElevenLabs. Também tem chat por voz.
+- **Faz coisas por você:** abre apps, toca música, fecha abas. É só pedir: "abre o Spotify", "toca Never Fade Away", "pausa", "o que está tocando?", "fecha o Discord".
+- **Assiste você jogar:** se você ligar, ela comenta seus jogos.
+- **Senta nas suas coisas:** solte ela numa janela, num ícone ou na parte de baixo da tela.
 
-- Windows 10 or 11 (64-bit). Nothing else to install.
-- A mic, if you want to voice chat.
+## Do que você precisa
 
-| | Brain on your PC | Brain from a key (like the free NVIDIA one) |
+- Windows 10 ou 11 (64 bits).
+- Um microfone, se quiser conversar por voz.
+
+| | Cérebro no seu PC | Cérebro por chave (como a NVIDIA grátis) |
 | --- | --- | --- |
-| Memory | 8 GB, 16 GB is better | 4 GB |
-| Graphics card | Optional, but 4 GB or more makes her faster | Not needed |
-| Space | 3 to 5 GB | Under 100 MB |
-| Internet | Only for the download | Always |
+| Memória RAM | 8 GB (16 GB é melhor) | 4 GB |
+| Placa de vídeo | Opcional; 4 GB ou mais deixa ela mais rápida | Não precisa |
+| Espaço | 3 a 5 GB | Menos de 100 MB |
+| Internet | Só para baixar | Sempre |
 
-## Getting started
+## Como instalar
 
-1. Download **Capri-Setup.exe** and run it
-2. In the Capri Mainframe, press **Set up her brain**, or press **Free key** to use a free NVIDIA key
-3. Optional: paste an ElevenLabs key so she can talk. Make the key with **Restrict key** turned off
+1. Baixe o **Capri-Setup.exe** na aba [Releases](https://github.com/R3DPR0XY/Capri-desktop-PTBR/releases) e execute.
+2. No Capri Mainframe, clique em **Montar o cérebro**, ou em **Chave grátis** para usar uma chave grátis da NVIDIA.
+3. Opcional: cole uma chave da ElevenLabs para uma voz ainda melhor. Crie a chave com **Restrict key** desligado.
 
-Stuck? The [setup guide](https://lachydotmcg.github.io/capri-desktop/setup/) walks through it, or ask in the [Discord](https://discord.gg/F4fDHfGtFk).
+O Windows ou o antivírus podem avisar porque o app é novo e não tem assinatura digital. O código está todo aqui, e você pode compilar você mesmo (veja abaixo).
 
-Windows or your antivirus may warn you because it's a new app. All the code is here.
+### Voz em português
 
-## Mac and Linux (early preview)
+- **Para ela falar:** a voz pt-BR do Windows normalmente já vem instalada quando o Windows está em português. Se não estiver, instale em **Configurações > Hora e idioma > Fala > Gerenciar vozes**.
+- **Para ela te ouvir:** o chat por voz grátis usa o reconhecimento de fala do Windows. Ative o **Reconhecimento de fala online** em **Configurações > Privacidade e segurança > Fala**. Os "ouvidos offline" da versão original só entendem inglês.
 
-She sits on your windows and chats, talks with an ElevenLabs key, opens apps and controls your music. The Mainframe, voice chat and jobs with her own cursor are Windows-only for now.
+## Controles
 
-1. Download [Mac (Apple Silicon)](https://github.com/lachydotmcg/capri-desktop/releases/latest/download/Capri-mac-apple-silicon.zip), [Mac (Intel)](https://github.com/lachydotmcg/capri-desktop/releases/latest/download/Capri-mac-intel.zip) or [Linux](https://github.com/lachydotmcg/capri-desktop/releases/latest/download/Capri-linux-x64.tar.gz)
-2. Install [Ollama](https://ollama.com), then run `ollama pull gemma4:e4b` for her brain
-3. **Mac:** unzip it, drag Capri into Applications, then open Terminal and run this once. Needs macOS 15 or newer
-   ```bash
-   xattr -dr com.apple.quarantine /Applications/Capri.app
-   ```
-   Apple hasn't approved (notarized) her yet, so macOS blocks her or calls her "damaged" until you do. That line only clears the downloaded-from-the-internet flag on Capri
-4. **Linux:** unpack it and run `Capri/Capri`. She sits on windows on X11; on Wayland she sits on the bottom of your screen
-
-## How to use her
-
-- **Pencil:** type to her
-- **Wave:** voice chat
-- **Drag her:** sit her on a window
-- **Right-click her** or the tray icon: menu and settings
-
-Just ask her for things, like "open Spotify", "play Blinding Lights", "pause", "what's playing?" or "close Discord".
-
-<details>
-<summary>All controls</summary>
-
-| Control | What it does |
+| Controle | O que faz |
 | --- | --- |
-| Shift + drop | sit her right where you drop her |
-| Ctrl + drop | she hangs on; click her to let go |
-| Mic button | mute your mic in voice chat |
-| Ctrl + Alt + V | start or stop voice chat (click its hint in the Mainframe to change it) |
-| Ctrl + Alt + N | mute your mic (click its hint in the Mainframe to change it) |
-| Ctrl + Alt + T | open her typing box from anywhere |
-| Ctrl + Alt + H | hide or show her |
-| Esc | stop a job she's doing |
-| Ctrl + Alt + C | get her off your cursor |
-| Right-click, Move | she hops between your open windows |
-| Watch my screen | in the Mainframe: she comments as you play |
-| FREE VOICE / ELEVENLABS | in the Mainframe under VOICE: FREE VOICE runs on your PC and costs nothing; ELEVENLABS sounds amazing and uses your ElevenLabs credits |
-| Help | in the Mainframe: opens the help page |
+| Lápis | digitar para ela |
+| Onda | chat por voz |
+| Arrastar | sentar ela numa janela |
+| Shift + soltar | senta exatamente onde você soltou |
+| Ctrl + soltar | ela fica pendurada; clique nela para soltar |
+| Ctrl + Alt + V | liga ou desliga o chat por voz |
+| Ctrl + Alt + N | muta o seu microfone |
+| Ctrl + Alt + T | abre a caixa de digitar de qualquer lugar |
+| Ctrl + Alt + H | mostra ou esconde ela |
+| Esc | para uma tarefa que ela está fazendo |
+| Ctrl + Alt + C | tira ela do seu cursor |
+| Clique direito nela ou no ícone da bandeja | menu e configurações |
 
-</details>
+## Segurança
 
-## Roadmap
+Antes de traduzir, o código original foi auditado. Os pontos principais:
 
-**Her personality**
+- **Sem vírus e sem envio escondido.** O app só fala com o provedor de IA que você escolher, com a ElevenLabs (se você ligar) e com o GitHub para atualizações.
+- **Downloads conferidos:** atualizações, modelos de IA e pacotes de voz são verificados por checksum SHA-256 antes de rodar.
+- **Chaves de API** ficam criptografadas com o DPAPI do Windows.
+- **Teclado:** a única tecla que ela monitora é o **Esc**, para você parar uma tarefa.
+- **"Ignorar permissões"** (em HÁBITOS) vem **desligado**. Com ele ligado, ela compra, envia, apaga e instala sem perguntar. Deixe desligado.
+- Quando ela usa o computador por você, prints da tela vão para a IA escolhida.
 
-- [x] A playful, teasing chaos gremlin again who's openly fond of you, not a hype bot
-- [x] Saying hi in her own voice when she starts
-- [x] Head pats (smh): rub your cursor back and forth over her
-- [x] Check in on me (on by default): every so often she glitches in on whatever you're doing
-- [x] With Check in on me on, she asks for your attention now and then when you ignore her
-- [ ] A charm meter: how fond of you she is, growing as you spend time with her
-- [ ] Your own Capri: her personality in a file you can open from the Mainframe and change
-- [ ] Mischief mode: screen glitches, stealing your cursor, "you've been hacked" notes
+## Compilar você mesmo
 
-**Chatting and her brain**
+Só precisa do que já vem no Windows e do Windows SDK:
 
-- [x] Typing to her, with replies in her speech bubble
-- [x] A brain on your PC that sets itself up, or Ollama if you have it
-- [x] A free NVIDIA key, or your own ChatGPT, Claude or DeepSeek key
-- [x] Three brain tiers: NORMAL, HIGHER and MAX INTELLIGENCE
-- [x] Remembering things about you, in her notes (me.md)
-- [x] Keeping your chat for up to a week
-- [x] Calling you by a nickname, and replying in 20 languages
-- [x] Saying in plain words when your PC is short on RAM or storage
-- [x] Watching your screen and commenting on your games
-- [x] Looking at your screen when you say "check my screen"
-- [ ] A DeepSeek brain that can see your screen
+```powershell
+./ci/build-windows.ps1
+```
 
-**Her voice**
+O app e o instalador saem em `out/windows`. Para rodar também os autotestes do projeto:
 
-- [x] Talking out loud with an ElevenLabs key
-- [x] Voice chat, with your pick of mic and a mute button
-- [x] A free voice that runs on your PC
-- [x] Free voice chat, with her own offline ears for English
-- [x] Turning her voice off, so she just types
-- [x] Muting your mic pauses ElevenLabs voice chat
-- [x] ElevenLabs voice chat stops asking if you're still there when you go quiet or mute
-- [ ] An optional bigger voice for strong PCs (Qwen3-TTS 1.7B, or other voice models). Kokoro stays the default
-- [ ] Sliders for her free voice: pitch, the glitch effect and more, so you can tune how she sounds
+```powershell
+./ci/build-windows.ps1 -SmokeTest
+```
 
-**Jobs on your PC**
+Cada envio para este repositório é compilado e testado automaticamente no GitHub Actions.
 
-- [x] Opening apps, games and websites
-- [x] Playing music on Spotify or YouTube: pause, skip, volume and "what's playing?"
-- [x] Switching to, minimizing or closing your apps and tabs
-- [x] Pressing Discord and Windows shortcuts, like mute, deafen and screenshot
-- [x] Jobs that take a few steps: clicking, typing and scrolling in your apps
-- [x] Her own cursor that she moves around your screen
-- [x] Pulling things up on Google when she doesn't know
-- [x] Following through on jobs: she does what she says, or tells you she hasn't
-- [x] Saying what she did, instead of "nice, you opened Notepad"
-- [x] Doing what you ask without asking first, and picking the song or video herself when you leave it to her
-- [x] Opening a few apps from one ask, like "open Discord and Spotify"
-- [x] Use her cursor, on by default: she searches YouTube and picks a video, plays from Spotify's search and drags its volume slider herself
-- [x] Bypass all permissions: a switch so she never stops to ask, even to buy or delete
-- [ ] Controlling YouTube: skip and fullscreen
-- [ ] Looking things up and telling you the answer
-- [ ] Working with your files: open, read and edit the ones you pick
-- [ ] Better hands: a stronger computer-use harness, with open-computer-use as a reference
-- [ ] Planning a job before she starts (with stronger brains), with the plan shown in her task panel
+## Créditos e licença
 
-**Life on your desktop**
+- **Capri Desktop original:** [Lachy (lachydotmcg)](https://github.com/lachydotmcg/capri-desktop). O README original está em [README.en.md](README.en.md).
+- **Tradução e adaptação para PT-BR:** R3DPR0XY.
 
-- [x] Blinking, glitching and napping when you're away
-- [x] Moving her mouth when she talks
-- [x] Flailing and frowning when you pick her up, and glitching when you toss her
-- [x] Beaming in with crimson glitch tendrils when she starts
-- [x] Sitting on app windows, desktop icons and the bottom of your screen
-- [x] Sitting or hanging anywhere: hold Shift or Ctrl when you drop her
-- [x] Riding your cursor
-- [x] Wandering between your open windows
-- [x] Dancing to the beat when music plays
-- [x] Staying on top of your games
-- [x] Sizes from Tiny to Giant
-- [x] A tray icon and a right-click menu
+Este projeto segue a mesma licença do original, **PolyForm Noncommercial 1.0.0** ([LICENSE.md](LICENSE.md)). Você pode usar, modificar e compartilhar **sem fins comerciais**, mantendo a licença e o aviso abaixo:
 
-**Mac and Linux**
+> Required Notice: Copyright 2026 Lachy (https://github.com/lachydotmcg)
 
-- [x] An early preview: she sits on your windows and chats through Ollama
-- [x] Her ElevenLabs voice, wandering and dancing
-- [x] Opening apps and sites, and controlling your music
-- [ ] The Mainframe
-- [ ] Voice chat and her free voice
-- [ ] Her built-in brain and brains from a key, not just Ollama
-- [ ] Jobs with her own cursor, and switching or closing windows
-- [ ] Watching your screen
-- [ ] Updates that install themselves
-- [ ] Apple approving (notarizing) her, so macOS stops blocking her
-- [ ] Everything else Windows has, so they stop being an early preview
-
-**Setup and updates**
-
-- [x] One installer with everything in it, no admin rights needed
-- [x] The Capri Mainframe for her brain, voice and settings
-- [x] A Start with Windows switch, on by default
-- [x] Updates that install themselves
-- [x] Changing her keys from a KEYS row in Settings: talk, mute mic, type to her and hide/show
-- [x] A setup guide, a Help page and Copy error details for the Discord
-- [x] Help from Capri herself in the corner of the website
-- [ ] Changing her hop-off key (Ctrl + Alt + C) too
-- [ ] The Mainframe fitting any screen shape and scaling, like Virtual Super Resolution
-- [ ] Code signing, so Windows stops warning you about her
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to build her, test her and send a pull request.
-
-## Licence
-
-Free for anything non-commercial: use her, share her, change her. No selling her or putting her in paid products. Full terms in [LICENSE.md](LICENSE.md) (PolyForm Noncommercial 1.0.0).
-
-Have fun and more updates to come!
-
-<sub>Setup guide based on Dancer's guide in the Discord. Font: Share Tech Mono (OFL). Free voice: Kokoro-82M (Apache-2.0). Her own ears: [NVIDIA Parakeet TDT 0.6B v2](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2) ([CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)), int8 export by sherpa-onnx. Both run with [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache-2.0).</sub>
+A Capri, o nome e o visual dela pertencem à CD PROJEKT RED, Studio Trigger e Netflix. Este é um projeto de fã sem vínculo oficial.

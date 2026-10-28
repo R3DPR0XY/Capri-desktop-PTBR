@@ -1,0 +1,48 @@
+# Capri PT-BR: cada versão publicada é compilada aqui, a partir do código público, e passa pelos autotestes
+# antes de virar release. Assim qualquer pessoa confere que o instalador saiu deste código.
+# Para publicar: crie e envie uma tag como v0.7.3.1 (o mesmo número do app/AssemblyInfo.cs).
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - name: Compilar e rodar os autotestes
+        shell: pwsh
+        run: ./ci/build-windows.ps1 -OutputDirectory out/windows -SmokeTest -SmokeSeconds 180
+      - name: Conferir a versão
+        shell: pwsh
+        run: |
+          $tag = '${{ github.ref_name }}'.TrimStart('v')
+          $version = (Get-Item out/windows/Capri.exe).VersionInfo.FileVersion
+          if ($version -ne $tag) { throw "A tag ($tag) não bate com a versão do app ($version). Atualize app/AssemblyInfo.cs." }
+      - name: Gerar checksums
+        shell: pwsh
+        run: |
+          Set-Location out/windows
+          $lines = foreach ($name in 'Capri-Setup.exe', 'Capri.exe') { (Get-FileHash -Algorithm SHA256 $name).Hash.ToLowerInvariant() + '  ' + $name }
+          [IO.File]::WriteAllText((Join-Path (Get-Location) 'SHA256SUMS.txt'), ($lines -join "`n") + "`n")
+          Get-Content SHA256SUMS.txt
+      - name: Publicar a release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $notes = @"
+          Capri em português do Brasil · versão por R3DPR0XY, baseada no capri-desktop de Lachy (https://github.com/lachydotmcg/capri-desktop).
+
+          Este instalador foi compilado automaticamente pelo GitHub Actions a partir do código desta tag, depois de passar pelos autotestes.
+          Confira o SHA256SUMS.txt para validar os arquivos.
+
+          Required Notice: Copyright 2026 Lachy (https://github.com/lachydotmcg) · PolyForm Noncommercial 1.0.0
+          "@
+          gh release create '${{ github.ref_name }}' out/windows/Capri-Setup.exe out/windows/Capri.exe out/windows/SHA256SUMS.txt --title "Capri PT-BR ${{ github.ref_name }}" --notes $notes
